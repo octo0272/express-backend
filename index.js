@@ -1,14 +1,16 @@
 const express = require('express');
 
+require('dotenv').config();
+
 // get the client
 const mysql = require('mysql2');
 
 // create the connection to database
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'test',
-  password: 'secret'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD
 });
 
 const app = express();
@@ -26,7 +28,7 @@ app.get('/insert/:data', (req, res) => {
     })
 })
 
-app.get('/db/:idx', (req, res) => {
+app.get('/db/:idx/', (req, res) => {
     const idx = req.params.idx
     const query = `SELECT data FROM table_1 WHERE idx = ${idx}`;
     connection.query(query, (err, result) => {
@@ -35,4 +37,7 @@ app.get('/db/:idx', (req, res) => {
     //res.send('db');
 })
 
-app.listen(3000);
+
+app.listen(4000);
+
+console.log("소스코드 수정");
